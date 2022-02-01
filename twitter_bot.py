@@ -19,7 +19,7 @@ class listener(tweepy.Stream):
       tweet = all_data["text"]
       username = all_data["user"]["screen_name"]
 
-      if 'panameyyyk' in tweet.lower():
+      if 'paname' in tweet.lower():
 
         print (username, tweet)
         api.update_status(

@@ -6,6 +6,7 @@ import json
 
 text1 = ('Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
 text2 = ('👾 RDV sur kingofpaname pour envahir la capitale 👾')
+text3 = ('🏃‍♂️ Profite de ton jogging pour conquérir Paname 👑')
 
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -37,18 +38,32 @@ class listener(tweepy.Stream):
             in_reply_to_status_id=id_tweet
         )
 
+      elif 'strava' in tweet.lower():
+
+        print ('Strava - ', username, tweet)
+        api.update_status(
+            status='@' + username + ' ' + text3,
+            in_reply_to_status_id=id_tweet
+        )
+
       return True
 
     def on_error(self, status):
         print(status)
 
 
-twtr_stream = listener(
-  CONSUMER_KEY, CONSUMER_SECRET,
-  ACCESS_KEY, ACCESS_SECRET
-)
+def start_stream():
+    while True:
+        try:
+          twtr_stream = listener(
+            CONSUMER_KEY, CONSUMER_SECRET,
+            ACCESS_KEY, ACCESS_SECRET
+          )
+          twtr_stream.filter(locations=[2.243856,48.812425,2.428220,48.904584])
+        except:
+            continue
 
-twtr_stream.filter(locations=[2.243856,48.812425,2.428220,48.904584])
+start_stream()
 
 # twtr_stream.filter(languages=["fr"], locations=[2.243856,48.812425,2.428220,48.904584])
 

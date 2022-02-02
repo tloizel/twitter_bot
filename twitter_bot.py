@@ -21,7 +21,7 @@ class listener(tweepy.Stream):
       tweet = all_data["text"]
       username = all_data["user"]["screen_name"]
 
-      if 'panamek' in tweet.lower():
+      if 'paname' in tweet.lower():
 
         print ('Paname - ', username, tweet)
         api.update_status(
@@ -29,7 +29,7 @@ class listener(tweepy.Stream):
             in_reply_to_status_id=id_tweet
         )
 
-      elif 'invadersk' in tweet.lower():
+      elif 'invaders' in tweet.lower():
 
         print ('Invaders - ', username, tweet)
         api.update_status(

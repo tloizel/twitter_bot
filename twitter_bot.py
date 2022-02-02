@@ -6,7 +6,10 @@ import json
 
 text1 = ('Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
 text2 = ('👾 RDV sur kingofpaname pour envahir la capitale 👾')
-text3 = ('🏃‍♂️ Profite de ton jogging pour conquérir Paname 👑')
+text3 = ('🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑')
+text4 = ('🚶‍♀️ Profite de ta balade pour conquérir Paris 👑')
+text5 = ('🚲 Profite de tes déplacements en vélo pour conquérir Paris 👑')
+text6 = ('Tu parles de Paris ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
 
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -43,6 +46,30 @@ class listener(tweepy.Stream):
         print ('Strava - ', username, tweet)
         api.update_status(
             status='@' + username + ' ' + text3,
+            in_reply_to_status_id=id_tweet
+        )
+
+      elif 'balade' in tweet.lower():
+
+        print ('Balade - ', username, tweet)
+        api.update_status(
+            status='@' + username + ' ' + text4,
+            in_reply_to_status_id=id_tweet
+        )
+
+      elif 'velo' in tweet.lower():
+
+        print ('Velo - ', username, tweet)
+        api.update_status(
+            status='@' + username + ' ' + text5,
+            in_reply_to_status_id=id_tweet
+        )
+
+      elif 'paris' in tweet.lower():
+
+        print ('Paris - ', username, tweet)
+        api.update_status(
+            status='@' + username + ' ' + text6,
             in_reply_to_status_id=id_tweet
         )
 

@@ -4,7 +4,9 @@ from tweepy import Stream
 import json
 
 
-text = ('RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
+text1 = ('Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
+text2 = ('👾 RDV sur kingofpaname pour envahir la capitale 👾')
+
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
@@ -19,15 +21,23 @@ class listener(tweepy.Stream):
       tweet = all_data["text"]
       username = all_data["user"]["screen_name"]
 
-      if 'paname' in tweet.lower():
+      if 'panamek' in tweet.lower():
 
-        print (username, tweet)
+        print ('Paname - ', username, tweet)
         api.update_status(
-            status='@' + username + ' ' + text,
+            status='@' + username + ' ' + text1,
             in_reply_to_status_id=id_tweet
         )
 
-        return True
+      elif 'invadersk' in tweet.lower():
+
+        print ('Invaders - ', username, tweet)
+        api.update_status(
+            status='@' + username + ' ' + text2,
+            in_reply_to_status_id=id_tweet
+        )
+
+      return True
 
     def on_error(self, status):
         print(status)

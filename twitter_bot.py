@@ -3,80 +3,67 @@ from keys import *
 from tweepy import Stream
 import json
 
-
-text1 = ('Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
-text2 = ('👾 RDV sur kingofpaname pour envahir la capitale 👾')
-text3 = ('🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑')
-text4 = ('🚶‍♀️ Profite de ta balade pour conquérir Paris 👑')
-text5 = ('🚲 Profite de tes déplacements en vélo pour conquérir Paris 👑')
-text6 = ('Tu parles de Paris ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷')
-
-
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 
 api = tweepy.API(auth)
 
+keywords = [
+{'word': 'strava', 'phrase': '🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑'},
+{'word': 'invaders', 'phrase': '👾 RDV sur kingofpaname pour envahir la capitale 👾'},
+{'word': 'velo', 'phrase': '🚲 Profite de tes déplacements en vélo pour conquérir Paris 👑'},
+{'word': 'balade', 'phrase': '🚶‍♀️ Profite de ta balade pour conquérir Paris 👑'},
+{'word': 'paname', 'phrase': 'Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷'}
+]
+
+status = True
+
 class listener(tweepy.Stream):
 
-    def on_data(self, data):
-      all_data = json.loads(data)
-      id_tweet = all_data["id_str"]
-      tweet = all_data["text"]
-      username = all_data["user"]["screen_name"]
+  def on_data(self, data):
+    global status
+    all_data = json.loads(data)
+    id_tweet = all_data["id_str"]
+    tweet = all_data["text"]
+    username = all_data["user"]["screen_name"]
 
-      if 'paname' in tweet.lower():
+    if username == 'tloizel':
 
-        print ('Paname - ', username, tweet)
+      if 'stop' in tweet.lower():
+
+        print ('Bot off - ', username, tweet)
         api.update_status(
-            status='@' + username + ' ' + text1,
+            status='@' + username + ' ' + 'Sad, turning bot off',
             in_reply_to_status_id=id_tweet
         )
+        status = False
+        return True
 
-      elif 'invaders' in tweet.lower():
+      elif 'start' in tweet.lower():
 
-        print ('Invaders - ', username, tweet)
+        print ('Bot on - ', username, tweet)
         api.update_status(
-            status='@' + username + ' ' + text2,
+            status='@' + username + ' ' + 'Woohoo, turning bot back on',
             in_reply_to_status_id=id_tweet
         )
+        status = True
+        return True
 
-      elif 'strava' in tweet.lower():
+    for x in keywords:
 
-        print ('Strava - ', username, tweet)
+      if x['word'] in tweet.lower() and status == True:
+
+        print (x['word'] + ' - ', username, tweet)
         api.update_status(
-            status='@' + username + ' ' + text3,
+            status='@' + username + ' ' + x['phrase'],
             in_reply_to_status_id=id_tweet
         )
+        break
 
-      elif 'balade' in tweet.lower():
+    return True
 
-        print ('Balade - ', username, tweet)
-        api.update_status(
-            status='@' + username + ' ' + text4,
-            in_reply_to_status_id=id_tweet
-        )
-
-      elif 'velo' in tweet.lower():
-
-        print ('Velo - ', username, tweet)
-        api.update_status(
-            status='@' + username + ' ' + text5,
-            in_reply_to_status_id=id_tweet
-        )
-
-      elif 'paris' in tweet.lower():
-
-        print ('Paris - ', username, tweet)
-        api.update_status(
-            status='@' + username + ' ' + text6,
-            in_reply_to_status_id=id_tweet
-        )
-
-      return True
-
-    def on_error(self, status):
-        print(status)
+  def on_error(self, status):
+      print(status)
 
 
 def start_stream():
@@ -92,13 +79,4 @@ def start_stream():
 
 start_stream()
 
-# twtr_stream.filter(languages=["fr"], locations=[2.243856,48.812425,2.428220,48.904584])
-
-
-# search for paname only in tweet not name && in Paris
-# reply
-#id for Paris 09f6a7707f18e0b1 (https://api.twitter.com/1.1/geo/reverse_geocode.json?lat=48.864716&long=2.349014)
-# place:09f6a7707f18e0b1
-# lang:fr
-# paname place:09f6a7707f18e0b1 lang:fr
 

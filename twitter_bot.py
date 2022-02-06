@@ -2,13 +2,16 @@ import tweepy
 from keys import *
 from tweepy import Stream
 import json
+from datetime import date, datetime, timezone
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 
 api = tweepy.API(auth)
+client = tweepy.Client(bearer_token=BEARER)
 
 keywords = [
+{'word': '#pixelart', 'phrase': '👾 Viens faire du pixel art sur la carte de Paris 👾'},
 {'word': 'strava', 'phrase': '🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑'},
 {'word': 'invaders', 'phrase': '👾 RDV sur kingofpaname pour envahir la capitale 👾'},
 {'word': 'velo', 'phrase': '🚲 Profite de tes déplacements en vélo pour conquérir Paris 👑'},
@@ -16,12 +19,19 @@ keywords = [
 {'word': 'paname', 'phrase': 'Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷'}
 ]
 
+# thread id = 1489718722105425921
+# kop id = 1481967129457004548
+
 status = True
 
 class listener(tweepy.Stream):
 
   def on_data(self, data):
     global status
+    today = date.today()
+    dt = datetime.combine(date.today(), datetime.min.time()).astimezone().isoformat()
+    count = client.get_users_tweets(id='1481967129457004548', start_time=dt).meta["result_count"]
+
     all_data = json.loads(data)
     id_tweet = all_data["id_str"]
     tweet = all_data["text"]
@@ -31,7 +41,7 @@ class listener(tweepy.Stream):
 
       if 'stop' in tweet.lower():
 
-        print ('Bot off - ', username, tweet)
+        print (today, ' - Bot off - ', username, tweet)
         api.update_status(
             status='@' + username + ' ' + 'Sad, turning bot off',
             in_reply_to_status_id=id_tweet
@@ -41,7 +51,7 @@ class listener(tweepy.Stream):
 
       elif 'start' in tweet.lower():
 
-        print ('Bot on - ', username, tweet)
+        print (today, ' - Bot on - ', username, tweet)
         api.update_status(
             status='@' + username + ' ' + 'Woohoo, turning bot back on',
             in_reply_to_status_id=id_tweet
@@ -51,14 +61,23 @@ class listener(tweepy.Stream):
 
     for x in keywords:
 
-      if x['word'] in tweet.lower() and status == True:
+      if x['word'] in tweet.lower() and status == True and count < 6:
 
-        print (x['word'] + ' - ', username, tweet)
+        print (today, ' - ' + x['word'] + ' - ', username, tweet)
         api.update_status(
             status='@' + username + ' ' + x['phrase'],
             in_reply_to_status_id=id_tweet
         )
         break
+
+      # elif status == True and count >= 6:
+      #   print (today, ' - @tloizel Turning off bot for today 💤')
+      #   api.update_status(
+      #       status='@tloizel Turning off bot for today 💤',
+      #       in_reply_to_status_id=1489718722105425921
+      #   )
+      #   status = False
+      # COMMENTING BECAUSE OF ISSUE : how to turn back on automatically?
 
     return True
 

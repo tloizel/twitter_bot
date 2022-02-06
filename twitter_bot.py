@@ -70,8 +70,8 @@ class listener(tweepy.Stream):
         )
         break
 
-      # elif status == True and count >= 6:
-      #   print (today, ' - @tloizel Turning off bot for today 💤')
+      elif x['word'] in tweet.lower() and status == True and count >= 6:
+        print (today, ' - @tloizel Turning off bot for today 💤')
       #   api.update_status(
       #       status='@tloizel Turning off bot for today 💤',
       #       in_reply_to_status_id=1489718722105425921

@@ -12,11 +12,11 @@ client = tweepy.Client(bearer_token=BEARER)
 
 keywords = [
 {'word': '#pixelart', 'phrase': '👾 Viens faire du pixel art sur la carte de Paris 👾'},
-{'word': 'strava', 'phrase': '🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑'},
+{'word': 'strava ', 'phrase': '🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑'},
 {'word': 'invaders', 'phrase': '👾 RDV sur kingofpaname pour envahir la capitale 👾'},
-{'word': 'velo', 'phrase': '🚲 Profite de tes déplacements en vélo pour conquérir Paris 👑'},
-{'word': 'balade', 'phrase': '🚶‍♀️ Profite de ta balade pour conquérir Paris 👑'},
-{'word': 'paname', 'phrase': 'Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷'}
+{'word': ' velo ', 'phrase': '🚲 Profite de tes déplacements en vélo pour conquérir Paris 👑'},
+{'word': ' balade ', 'phrase': '🚶‍♀️ Profite de ta balade pour conquérir Paris 👑'},
+{'word': ' paname ', 'phrase': 'Tu parles de Paname ? RDV sur kingofpaname pour conquérir la capitale 👑🇫🇷'}
 ]
 
 # thread id = 1489718722105425921

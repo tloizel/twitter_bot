@@ -61,7 +61,7 @@ class listener(tweepy.Stream):
 
     for x in keywords:
 
-      if x['word'] in tweet.lower() and status == True and count < 6:
+      if x['word'] in tweet.lower() and status == True and count < 10:
 
         print (today, ' - ' + x['word'] + ' - ', username, tweet)
         api.update_status(
@@ -70,7 +70,7 @@ class listener(tweepy.Stream):
         )
         break
 
-      elif x['word'] in tweet.lower() and status == True and count >= 6:
+      elif x['word'] in tweet.lower() and status == True and count >= 10:
         print (today, ' - @tloizel Turning off bot for today 💤')
       #   api.update_status(
       #       status='@tloizel Turning off bot for today 💤',

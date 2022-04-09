@@ -11,6 +11,7 @@ api = tweepy.API(auth)
 client = tweepy.Client(bearer_token=BEARER)
 
 keywords = [
+{'word': 'r/place', 'phrase': 'r/place continue sur Paris, rdv sur kingofpaname.fr 🇫🇷'},
 {'word': '#pixelart', 'phrase': '👾 Viens faire du pixel art sur la carte de Paris 👾'},
 {'word': 'strava ', 'phrase': '🏃‍♂️ Profite de ton jogging pour conquérir Paris 👑'},
 {'word': 'invaders', 'phrase': '👾 RDV sur kingofpaname pour envahir la capitale 👾'},

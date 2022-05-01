@@ -21,8 +21,6 @@ keywords = [
 {'word': ' paname ', 'phrase': 'Tu parles de Paname ? RDV sur kingofpaname.fr pour conquérir la capitale 👑🇫🇷'}
 ]
 
-# thread id = 1489718722105425921
-# kop id = 1481967129457004548
 
 status = True
 
@@ -32,7 +30,8 @@ class listener(tweepy.Stream):
     global status
     today = date.today()
     dt = datetime.combine(date.today(), datetime.min.time()).astimezone().isoformat()
-    count = client.get_users_tweets(id='1481967129457004548', start_time=dt).meta["result_count"]
+    count = client.get_users_tweets(id='1481967129457004548', start_time=dt).meta["result_count"] 
+    # retrieve the tweet ID from your Twitter thread to control the bot
 
     all_data = json.loads(data)
     id_tweet = all_data["id_str"]
@@ -40,6 +39,7 @@ class listener(tweepy.Stream):
     username = all_data["user"]["screen_name"]
 
     if username == 'tloizel':
+    # enter your username
 
       if 'stop' in tweet.lower():
 
@@ -64,6 +64,7 @@ class listener(tweepy.Stream):
     for x in keywords:
 
       if x['word'] in tweet.lower() and status == True and count < 10:
+      # bot only tweets maximum 10 times a day to respect Twitter guidelines
 
         print (today, ' - ' + x['word'] + ' - ', username, tweet)
         api.update_status(
@@ -74,12 +75,6 @@ class listener(tweepy.Stream):
 
       elif x['word'] in tweet.lower() and status == True and count >= 10:
         print (today, ' - @tloizel Turning off bot for today 💤')
-      #   api.update_status(
-      #       status='@tloizel Turning off bot for today 💤',
-      #       in_reply_to_status_id=1489718722105425921
-      #   )
-      #   status = False
-      # COMMENTING BECAUSE OF ISSUE : how to turn back on automatically?
 
     return True
 
@@ -95,6 +90,8 @@ def start_stream():
             ACCESS_KEY, ACCESS_SECRET
           )
           twtr_stream.filter(locations=[2.243856,48.812425,2.428220,48.904584])
+          # use coordinates of the location you wish to filter (southwest longitude-latitude, northeast longitude-latitude)
+
         except:
             continue
 

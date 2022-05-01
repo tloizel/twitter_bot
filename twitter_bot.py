@@ -31,7 +31,7 @@ class listener(tweepy.Stream):
     today = date.today()
     dt = datetime.combine(date.today(), datetime.min.time()).astimezone().isoformat()
     count = client.get_users_tweets(id='1481967129457004548', start_time=dt).meta["result_count"] 
-    # retrieve the tweet ID from your Twitter thread to control the bot
+    # retrieve the bot's Twitter ID to count the daily amount of tweets
 
     all_data = json.loads(data)
     id_tweet = all_data["id_str"]

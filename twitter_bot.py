@@ -39,7 +39,7 @@ class listener(tweepy.Stream):
     username = all_data["user"]["screen_name"]
 
     if username == 'tloizel':
-    # enter your username
+    # enter the Twitter username of the account that can control your bot
 
       if 'stop' in tweet.lower():
 
